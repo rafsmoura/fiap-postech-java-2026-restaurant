@@ -1,0 +1,14 @@
+/target/
+/.idea/
+*.iml
+.project
+.classpath
+.settings/
+.DS_Store
+
+# Credenciais locais (Workbench / MySQL na máquina)
+src/main/resources/application-local.yml
+
+# Documentação interna / relatório estendido (apresentação acadêmica só no README)
+MANUAL_EXECUCAO.md
+DOCUMENTACAO_SISTEMA_E_SEGURANCA.md
