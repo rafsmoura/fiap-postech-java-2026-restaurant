@@ -125,9 +125,7 @@ Importar a coleção **`postman/Restaurant-Management.postman_collection.json`**
 
 ## Evidências e relatório
 
-- **Página de imagens e download do PDF:** abra no navegador o arquivo [`docs/evidencias.html`](docs/evidencias.html) (duplo clique no Explorer ou arraste para o Chrome/Edge). Inclua os prints em `docs/images/` com os nomes indicados na própria página.
-- **Relatório:** copie o PDF entregue conforme o roteiro da disciplina para **`docs/relatorio/relatorio-tecnico.pdf`** — o botão *Baixar relatório técnico* na página de evidências aponta para esse caminho.
-
+está colocado na pagina docs
 ---
 
 *Projeto desenvolvido no contexto do Tech Challenge da fase.*
