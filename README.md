@@ -105,21 +105,28 @@ Importar a coleção **`postman/Restaurant-Management.postman_collection.json`**
 ## Estrutura do repositório
 
 ```
-restaurant-management/
-├── src/main/java/...     # Código-fonte
-├── src/main/resources/   # application.yml, exemplo de perfil local
-├── postman/              # Coleção JSON
-├── docker-compose.yml
-├── Dockerfile
-├── pom.xml
-└── README.md             # Este arquivo (entrega de apresentação)
+.
+├── restaurant-management/
+│   ├── src/main/java/...     # Código-fonte
+│   ├── src/main/resources/   # application.yml
+│   ├── postman/              # Coleção JSON
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── pom.xml
+│   └── README.md             # Detalhes da API (se existir na pasta do módulo)
+├── docs/
+│   ├── evidencias.html       # Galeria de imagens + botão do relatório (PDF)
+│   ├── images/               # Prints (Swagger, Postman, modelo, arquitetura, Docker)
+│   └── relatorio/          # relatorio-tecnico.pdf (você adiciona)
+└── README.md                 # Visão geral (este arquivo)
 ```
 
 ---
 
-## Entrega acadêmica
+## Evidências e relatório
 
-O **relatório técnico em PDF** previsto pelo curso é entregue **fora** deste repositório, podendo incluir prints do Swagger, da coleção Postman, modelo de dados, arquitetura e passo a passo com Docker, conforme o roteiro da disciplina.
+- **Página de imagens e download do PDF:** abra no navegador o arquivo [`docs/evidencias.html`](docs/evidencias.html) (duplo clique no Explorer ou arraste para o Chrome/Edge). Inclua os prints em `docs/images/` com os nomes indicados na própria página.
+- **Relatório:** copie o PDF entregue conforme o roteiro da disciplina para **`docs/relatorio/relatorio-tecnico.pdf`** — o botão *Baixar relatório técnico* na página de evidências aponta para esse caminho.
 
 ---
 

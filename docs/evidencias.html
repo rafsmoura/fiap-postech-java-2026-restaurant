@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evidências — Tech Challenge | Restaurant Management API</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4f;
+      --text: #e7eef8;
+      --muted: #8b9cb3;
+      --accent: #3d8bfd;
+      --accent-hover: #5ca0ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      padding: 2.5rem 1.5rem 2rem;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 { margin: 0 0 0.35rem; font-size: 1.65rem; font-weight: 600; }
+    header p { margin: 0; color: var(--muted); max-width: 42rem; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 0 1.25rem; }
+    .actions {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn[disabled], .btn[aria-disabled="true"] {
+      opacity: 0.55;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .hint { font-size: 0.85rem; color: var(--muted); }
+    main { padding: 2rem 0 4rem; }
+    section {
+      margin-bottom: 2.75rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    section h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    section > p.desc { margin: 0 0 1rem; color: var(--muted); font-size: 0.92rem; }
+    figure {
+      margin: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0c1017;
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 120px;
+      object-fit: contain;
+    }
+    figcaption {
+      padding: 0.65rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    .placeholder {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    footer {
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Evidências do projeto</h1>
+      <p>
+        Galeria para prints do <strong>Swagger</strong>, <strong>Postman</strong>, <strong>modelo de dados</strong>,
+        <strong>arquitetura</strong> e <strong>Docker</strong>. Coloque as imagens na pasta
+        <code>docs/images/</code> com os nomes indicados em cada seção.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="relatorio/relatorio-tecnico.pdf" download="relatorio-tecnico.pdf">
+          Baixar relatório técnico (PDF)
+        </a>
+        <span class="hint">Coloque o arquivo em <code>docs/relatorio/relatorio-tecnico.pdf</code> (nome fixo esperado pelo botão).</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="swagger">
+      <h2>Swagger / OpenAPI</h2>
+      <p class="desc">Ex.: tela do Swagger UI com os endpoints de usuários.</p>
+      <figure>
+        <img src="images/swagger-ui.png" alt="Captura do Swagger UI" width="1200"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="placeholder" style="display:none">Adicione <code>docs/images/swagger-ui.png</code></div>
+        <figcaption>Arquivo esperado: <code>images/swagger-ui.png</code></figcaption>
+      </figure>
+    </section>
+
+    <section id="postman">
+      <h2>Coleção Postman</h2>
+      <p class="desc">Ex.: pasta da coleção ou requisição com resposta 200.</p>
+      <figure>
+        <img src="images/postman-colecao.png" alt="Captura do Postman" width="1200"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="placeholder" style="display:none">Adicione <code>docs/images/postman-colecao.png</code></div>
+        <figcaption>Arquivo esperado: <code>images/postman-colecao.png</code></figcaption>
+      </figure>
+    </section>
+
+    <section id="modelo-dados">
+      <h2>Modelo de dados</h2>
+      <p class="desc">Diagrama ou print do schema (ex.: tabela <code>users</code>, discriminador).</p>
+      <figure>
+        <img src="images/modelo-dados.png" alt="Modelo de dados" width="1200"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="placeholder" style="display:none">Adicione <code>docs/images/modelo-dados.png</code></div>
+        <figcaption>Arquivo esperado: <code>images/modelo-dados.png</code></figcaption>
+      </figure>
+    </section>
+
+    <section id="arquitetura">
+      <h2>Arquitetura</h2>
+      <p class="desc">Camadas ou diagrama de componentes (Web → Service → Repository).</p>
+      <figure>
+        <img src="images/arquitetura.png" alt="Arquitetura" width="1200"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="placeholder" style="display:none">Adicione <code>docs/images/arquitetura.png</code></div>
+        <figcaption>Arquivo esperado: <code>images/arquitetura.png</code></figcaption>
+      </figure>
+    </section>
+
+    <section id="docker">
+      <h2>Docker</h2>
+      <p class="desc">Terminal com <code>docker compose up</code> ou containers em execução.</p>
+      <figure>
+        <img src="images/docker-compose.png" alt="Docker Compose" width="1200"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="placeholder" style="display:none">Adicione <code>docs/images/docker-compose.png</code></div>
+        <figcaption>Arquivo esperado: <code>images/docker-compose.png</code></figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Restaurant Management API · Tech Challenge — Fase 1</div>
+  </footer>
+
+</body>
+</html>
