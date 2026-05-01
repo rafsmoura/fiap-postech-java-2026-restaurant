@@ -128,4 +128,4 @@ Importar a coleção **`postman/Restaurant-Management.postman_collection.json`**
 está colocado na pagina docs
 ---
 
-*Projeto desenvolvido no contexto do Tech Challenge da fase.*
+*Projeto desenvolvido no contexto do Tech Challenge da 1° fase.*
