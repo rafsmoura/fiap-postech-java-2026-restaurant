@@ -1,0 +1,386 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-tech-challenge-restaurant",
+    "name": "Restaurant Management API",
+    "description": "Coleção Tech Challenge — usuários, login, validações e erros.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "userId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Usuários",
+      "item": [
+        {
+          "name": "Cadastro válido (CLIENT)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.code === 201);",
+                  "if (pm.response.code === 201) {",
+                  "  const j = pm.response.json();",
+                  "  pm.collectionVariables.set('userId', j.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Maria Silva\",\n  \"email\": \"maria.silva@exemplo.com\",\n  \"login\": \"maria.silva\",\n  \"password\": \"SenhaForte123\",\n  \"userType\": \"CLIENT\",\n  \"address\": {\n    \"street\": \"Rua das Flores\",\n    \"number\": \"100\",\n    \"city\": \"São Paulo\",\n    \"zipCode\": \"01310100\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/users",
+            "description": "Cenário: cadastro com todos os campos obrigatórios."
+          }
+        },
+        {
+          "name": "Cadastro válido (RESTAURANT_OWNER)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"João Restaurante\",\n  \"email\": \"joao.rest@exemplo.com\",\n  \"login\": \"joao.rest\",\n  \"password\": \"SenhaForte123\",\n  \"userType\": \"RESTAURANT_OWNER\",\n  \"address\": {\n    \"street\": \"Av. Paulista\",\n    \"number\": \"500\",\n    \"city\": \"São Paulo\",\n    \"zipCode\": \"01310100\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/users"
+          }
+        },
+        {
+          "name": "Cadastro inválido — e-mail duplicado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 409 Conflict', () => pm.response.code === 409);",
+                  "pm.test('ProblemDetail type', () => {",
+                  "  const j = pm.response.json();",
+                  "  pm.expect(j.type).to.include('email-duplicate');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Outro Usuário\",\n  \"email\": \"maria.silva@exemplo.com\",\n  \"login\": \"outro.login\",\n  \"password\": \"SenhaForte123\",\n  \"userType\": \"CLIENT\",\n  \"address\": {\n    \"street\": \"Rua A\",\n    \"number\": \"1\",\n    \"city\": \"SP\",\n    \"zipCode\": \"01000000\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/users",
+            "description": "Execute após 'Cadastro válido (CLIENT)' com o mesmo e-mail."
+          }
+        },
+        {
+          "name": "Cadastro inválido — campos obrigatórios faltando",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.code === 400);",
+                  "pm.test('ProblemDetail', () => {",
+                  "  const j = pm.response.json();",
+                  "  pm.expect(j).to.have.property('errors');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"email\": \"invalido\",\n  \"userType\": \"CLIENT\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/users"
+          }
+        },
+        {
+          "name": "Buscar usuários — por trecho do nome",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users?name=Maria",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users"],
+              "query": [{ "key": "name", "value": "Maria" }]
+            }
+          }
+        },
+        {
+          "name": "Buscar usuários — barra geral (nome OU e-mail)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users?search=silva",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users"],
+              "query": [{ "key": "search", "value": "silva" }]
+            },
+            "description": "Parâmetro search: contém no nome ou no e-mail."
+          }
+        },
+        {
+          "name": "Buscar usuários — trecho do e-mail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users?email=exemplo.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users"],
+              "query": [{ "key": "email", "value": "exemplo.com" }]
+            }
+          }
+        },
+        {
+          "name": "Obter usuário por id (lookup)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/lookup?id={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "lookup"],
+              "query": [{ "key": "id", "value": "{{userId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Buscar um usuário — lookup (e-mail)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/lookup?email=maria.silva@exemplo.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "lookup"],
+              "query": [{ "key": "email", "value": "maria.silva@exemplo.com" }]
+            },
+            "description": "Exatamente um parâmetro: id, email ou name (nome exato)."
+          }
+        },
+        {
+          "name": "Atualizar dados (sucesso) — por id na query",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Maria Silva Santos\",\n  \"email\": \"maria.silva@exemplo.com\",\n  \"login\": \"maria.silva\",\n  \"address\": {\n    \"street\": \"Rua Nova\",\n    \"number\": \"200\",\n    \"city\": \"São Paulo\",\n    \"zipCode\": \"01310100\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/update?id={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "update"],
+              "query": [{ "key": "id", "value": "{{userId}}" }]
+            },
+            "description": "PUT /users/update — mesmo critério do GET /lookup (id, email, name ou nameContains)."
+          }
+        },
+        {
+          "name": "Atualizar dados por e-mail (query)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Maria Silva Santos\",\n  \"email\": \"maria.silva@exemplo.com\",\n  \"login\": \"maria.silva\",\n  \"address\": {\n    \"street\": \"Rua Nova\",\n    \"number\": \"200\",\n    \"city\": \"São Paulo\",\n    \"zipCode\": \"01310100\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/update?email=maria.silva@exemplo.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "update"],
+              "query": [{ "key": "email", "value": "maria.silva@exemplo.com" }]
+            },
+            "description": "Exatamente um parâmetro: id, email, name ou nameContains."
+          }
+        },
+        {
+          "name": "Atualizar dados — e-mail duplicado (erro)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.code === 409);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Maria\",\n  \"email\": \"joao.rest@exemplo.com\",\n  \"login\": \"maria.silva\",\n  \"address\": {\n    \"street\": \"Rua\",\n    \"number\": \"1\",\n    \"city\": \"SP\",\n    \"zipCode\": \"01000000\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/update?id={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "update"],
+              "query": [{ "key": "id", "value": "{{userId}}" }]
+            },
+            "description": "Requer RESTAURANT_OWNER cadastrado com joao.rest@exemplo.com."
+          }
+        },
+        {
+          "name": "Troca de senha (sucesso)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"SenhaForte123\",\n  \"newPassword\": \"NovaSenhaForte456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/password?id={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "password"],
+              "query": [{ "key": "id", "value": "{{userId}}" }]
+            },
+            "description": "Troca de senha: localização por query (id, email, name ou nameContains)."
+          }
+        },
+        {
+          "name": "Trocar senha por e-mail (busca + execução)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"NovaSenhaForte456\",\n  \"newPassword\": \"SenhaForte123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/password?email=maria.silva@exemplo.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "password"],
+              "query": [{ "key": "email", "value": "maria.silva@exemplo.com" }]
+            },
+            "description": "Localiza por e-mail, depois troca senha. Ajuste currentPassword conforme última troca bem-sucedida (ex.: após request anterior use NovaSenhaForte456)."
+          }
+        },
+        {
+          "name": "Troca de senha — senha atual errada (erro)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.code === 400);",
+                  "pm.test('invalid-current-password', () => {",
+                  "  pm.expect(pm.response.json().type).to.include('invalid-current-password');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Errada\",\n  \"newPassword\": \"OutraSenha123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/password?id={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "password"],
+              "query": [{ "key": "id", "value": "{{userId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Excluir usuário",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users?id={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users"],
+              "query": [{ "key": "id", "value": "{{userId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Excluir usuário por e-mail (busca + execução)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users?email=maria.silva@exemplo.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users"],
+              "query": [{ "key": "email", "value": "maria.silva@exemplo.com" }]
+            },
+            "description": "Exatamente um parâmetro: id, email ou name. Cuidado: remove o registro."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Validar login (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.code === 200);",
+                  "pm.test('valid true', () => pm.response.json().valid === true);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"maria.silva\",\n  \"password\": \"SenhaForte123\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "description": "Use a senha atual do usuário. Após 'Troca de senha (sucesso)', altere para NovaSenhaForte456."
+          }
+        },
+        {
+          "name": "Validar login (erro)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.code === 401);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"naoexiste\",\n  \"password\": \"qualquer\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login"
+          }
+        }
+      ]
+    }
+  ]
+}
